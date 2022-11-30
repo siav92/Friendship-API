@@ -31,6 +31,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_022648) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "friendships", "users"
-  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
+  add_foreign_key "friendships", "users", on_delete: :cascade
 end

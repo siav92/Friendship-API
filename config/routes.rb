@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   post '/signup', to: 'registration#signup'
   post '/login', to: 'registration#login'
   post '/users/:email/friendship' => 'friendships#create', :constraints => { email: /.+@.+\..*/ }
-  resources :users
+  get '/users/me/friends' => 'users#friends'
 end

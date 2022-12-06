@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :users
   post '/signup', to: 'registration#signup'
   post '/login', to: 'registration#login'
-  resources :friendships
+  post '/users/:email/friendship' => 'friendships#create', :constraints => { email: /.+@.+\..*/ }
   resources :users
 end

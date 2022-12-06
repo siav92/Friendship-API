@@ -1,14 +1,14 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: %i[show update destroy]
+  before_action :set_friendship, only: %i[destroy]
 
   # POST /friendships
   def create
-    @friendship = Friendship.new(friendship_params)
+    friend = User.find_by!(email: friendship_params[:email])
 
-    if @friendship.save
-      render json: @friendship, status: :created, location: @friendship
+    if (friendships = Friendships::Create.new(current_user, friend).run!)
+      render json: friendships, status: :created
     else
-      render json: @friendship.errors, status: :unprocessable_entity
+      render json: friendships.errors, status: :unprocessable_entity
     end
   end
 
@@ -26,6 +26,6 @@ class FriendshipsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def friendship_params
-    params.require(:friendship).permit(:user_id, :friend_id)
+    params.permit(:email)
   end
 end

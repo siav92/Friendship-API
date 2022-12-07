@@ -1,6 +1,4 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: %i[destroy]
-
   # POST /friendships
   def create
     friend = User.find_by!(email: friendship_params[:email])
@@ -14,15 +12,16 @@ class FriendshipsController < ApplicationController
 
   # DELETE /friendships/1
   def destroy
-    @friendship.destroy
+    friendship = Friendship.find(params[:id])
+
+    if Friendships::Unfriend.new(friendship).run!
+      render json: { message: 'Unfriended successfully!' }, status: :ok
+    else
+      render json: { message: 'Unable to unfriended!' }, status: :unprocessable_entity
+    end
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_friendship
-    @friendship = Friendship.find(params[:id])
-  end
 
   # Only allow a list of trusted parameters through.
   def friendship_params

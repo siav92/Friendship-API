@@ -6,4 +6,8 @@ class Friendship < ApplicationRecord
   belongs_to :friend, class_name: 'User', foreign_key: 'friend_id'
 
   STATUS = %i[created removed rejected trashed]
+
+  def reverse_friendship
+    Friendship.find_by(user: friend, friend: user)
+  end
 end

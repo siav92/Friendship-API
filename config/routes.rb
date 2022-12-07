@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  resources :users
+  # Registration
   post '/signup', to: 'registration#signup'
   post '/login', to: 'registration#login'
-  post '/users/:email/friendship' => 'friendships#create', :constraints => { email: /.+@.+\..*/ }
+
+  resources :friendships, only: %i[destroy]
+
   get '/users/me/friends' => 'users#friends'
+  post '/users/:email/friendship' => 'friendships#create', :constraints => { email: /.+@.+\..*/ }
 end

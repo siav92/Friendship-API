@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Friendship < ApplicationRecord
   validates_presence_of :user, :friend
   validates_uniqueness_of :user, scope: :friend

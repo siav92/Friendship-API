@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationController < ActionController::API
   def signup
     user = User.new(signup_params)

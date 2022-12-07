@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'json_web_token'
 
 module Registration
+  # Generate and read JWT tokens for user requests
   class Token
     def self.generate_user_token(user)
       payload = { email: user.email }

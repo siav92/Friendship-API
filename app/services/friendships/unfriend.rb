@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Friendships
+  # Destroy friendship records
   class Unfriend
     def initialize(friendship)
       @friendship = friendship

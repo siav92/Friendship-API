@@ -33,6 +33,7 @@ group :development, :test do
   gem 'faker'
   gem 'pry'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'rubocop', require: false
 end
 

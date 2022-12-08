@@ -6,16 +6,19 @@ require 'json_web_token'
 RSpec.describe JsonWebToken do
   let(:expiry) { '01/01/3022'.to_datetime }
   let(:payload) { { foo: :bar, lorem: :ipsum } }
+  let(:decoded_token) do
+    [
+      { 'foo' => 'bar', 'lorem' => 'ipsum', 'exp' => 33_197_904_000 },
+      { 'alg' => 'HS256' }
+    ]
+  end
 
   describe '.encode' do
     it 'returns an encoded token' do
       token = JsonWebToken.encode(payload, expiry)
       expect(token).to be_a String
       expect(JWT.decode(token, JsonWebToken::SECRET_KEY, JsonWebToken::ALGORITHM))
-        .to eq [
-          { 'foo' => 'bar', 'lorem' => 'ipsum', 'exp' => 33_197_904_000 },
-          { 'alg' => 'HS256' }
-        ]
+        .to eq(decoded_token)
     end
   end
 
@@ -26,7 +29,7 @@ RSpec.describe JsonWebToken do
 
     it 'returns the decoded payload' do
       expect(JsonWebToken.decode(token))
-        .to eq({ 'foo' => 'bar', 'lorem' => 'ipsum', 'exp' => 33_197_904_000 })
+        .to eq(decoded_token)
     end
   end
 end

@@ -12,15 +12,17 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= User.find_by(email: token[:email])
+    @current_user ||= User.find_by!(email: token[:email])
   end
   alias find_current_user current_user
+
+  private
 
   def token
     @token = begin
       header = request.headers['Authorization']
-      header = header.split(' ').last if header
-      Registration::Token.decode_user_token(header)
+      token = header.split(' ').last if header
+      Registration::Token.decode_user_token(token)
     end
   end
 end

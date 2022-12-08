@@ -5,12 +5,15 @@ module Friendships
   class Unfriend
     def initialize(friendship)
       @friendship = friendship
+      @reverse_friendship = friendship.reverse_friendship
     end
 
     def run!
       Friendship.transaction do
-        friendship.destroy!
-        friendship.reverse_friendship.destroy!
+        raise 'Friendships are not active!' unless friendship.active? && reverse_friendship.active?
+
+        friendship.unfriended!
+        reverse_friendship.unfriended!
       end
 
       true
@@ -18,6 +21,6 @@ module Friendships
 
     private
 
-    attr_reader :friendship
+    attr_reader :friendship, :reverse_friendship
   end
 end

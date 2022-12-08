@@ -1,10 +1,10 @@
 class AddStatusToFriendship < ActiveRecord::Migration[7.0]
   def up
     execute <<-SQL
-      CREATE TYPE friendship_status AS ENUM ('created', 'removed', 'rejected', 'trashed');
+      CREATE TYPE friendship_status AS ENUM ('inactive', 'active', 'unfriended', 'rejected');
     SQL
 
-    add_column(:friendships, :status, :friendship_status, default: :created, null: false)
+    add_column(:friendships, :status, :friendship_status, default: :inactive, null: false)
 
     add_index :friendships, %i[status]
   end

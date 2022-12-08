@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
     @token = begin
       header = request.headers['Authorization']
       token = header.split(' ').last if header
-      Registration::Token.decode_user_token(token)
+      Registration::Token.decode_user_token(token).symbolize_keys
     end
   end
 end

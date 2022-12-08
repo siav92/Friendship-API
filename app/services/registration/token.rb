@@ -12,7 +12,7 @@ module Registration
     end
 
     def self.decode_user_token(token)
-      JsonWebToken.decode(token)
+      JsonWebToken.decode(token)[0]
     end
   end
 end

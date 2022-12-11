@@ -26,6 +26,9 @@ gem 'jwt'
 # Serialization
 gem 'active_model_serializers'
 
+# Database
+gem 'active_record_extended' # union and other query methods
+
 group :development, :test do
   gem 'bullet'
   gem 'debug', platforms: %i[mri mingw x64_mingw]

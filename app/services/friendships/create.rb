@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Friendships
-  # Create friendship records
+  # Create bidirectional friendship records
   class Create
     def initialize(user, friend)
       @user = user

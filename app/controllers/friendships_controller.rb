@@ -12,10 +12,17 @@ class FriendshipsController < ApplicationController
     end
   end
 
-  # DELETE /friendships/1
-  def destroy
-    friendship = Friendship.find(params[:id])
+  # PATCH /friendships/:friendship_id/accept
+  def accept
+    if Friendships::Accept.new(friendship).run!
+      render json: { message: 'Friendship accepted!' }, status: :ok
+    else
+      render json: { message: 'Unable to accept friendship!' }, status: :unprocessable_entity
+    end
+  end
 
+  #  PATCH /friendships/:id
+  def unfriend
     if Friendships::Unfriend.new(friendship).run!
       render json: { message: 'Unfriended successfully!' }, status: :ok
     else
@@ -24,6 +31,15 @@ class FriendshipsController < ApplicationController
   end
 
   private
+
+  def friendship
+    @friendship ||= Friendship
+                    .joins(:friend)
+                    .find_by!(
+                      users: { email: friendship_params[:email] },
+                      friendships: { user_id: current_user.id }
+                    )
+  end
 
   # Only allow a list of trusted parameters through.
   def friendship_params

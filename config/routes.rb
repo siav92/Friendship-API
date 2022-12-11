@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post '/login', to: 'registration#login'
 
   # Users and Friendships
+  resources :users, only: %i[index]
   get '/users/me/friends' => 'users#friends'
   post '/users/:email/friendship' => 'friendships#create', :constraints => { email: /.+@.+\..*/ }
   patch '/users/:email/friendship/accept' => 'friendships#accept', :constraints => { email: /.+@.+\..*/ }
@@ -13,5 +14,5 @@ Rails.application.routes.draw do
   resources :notes, only: %i[create update destroy]
 
   # Labels
-  resources :labels, only: %i[create update destroy]
+  resources :labels, only: %i[create update destroy index]
 end

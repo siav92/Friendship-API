@@ -1,4 +1,11 @@
 class LabelsController < ApplicationController
+  # GET /labels
+  def index
+    labels = Label.full_text_search(params[:query])
+
+    render json: labels, status: :ok
+  end
+
   # POST /labels
   def create
     label = Label.new(label_params)

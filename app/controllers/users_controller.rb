@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   # GET /users
   def index
-    users = User.all
+    users = User.full_text_search(params[:query])
 
     render json: users, status: :ok
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_11_192417) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_11_201511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_11_192417) do
     t.string "color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "to_tsvector('english_nostop'::regconfig, (title)::text)", name: "fts_index_labels_on_title", using: :gin
     t.index ["title"], name: "index_labels_on_title", unique: true
   end
 
@@ -52,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_11_192417) do
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "to_tsvector('english_nostop'::regconfig, (((title)::text || ' '::text) || content))", name: "fts_index_notes_on_title_and_content", using: :gin
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -61,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_11_192417) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "to_tsvector('english_nostop'::regconfig, (email)::text)", name: "fts_index_users_on_email", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

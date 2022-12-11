@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_11_201511) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "to_tsvector('english_nostop'::regconfig, (email)::text)", name: "fts_index_users_on_email", using: :gin
+    t.index "to_tsvector('english_nostop'::regconfig, (name)::text)", name: "fts_index_users_on_name", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

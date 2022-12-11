@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_06_234408) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_11_185143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_234408) do
     t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "name", null: false
@@ -39,4 +48,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_234408) do
 
   add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
   add_foreign_key "friendships", "users", on_delete: :cascade
+  add_foreign_key "notes", "users"
 end

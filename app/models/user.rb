@@ -9,4 +9,5 @@ class User < ApplicationRecord
   has_many :friendships, -> { active }
   has_many :reverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
+  has_many :notes
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_11_185143) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_11_192417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_11_185143) do
     t.enum "status", default: "inactive", null: false, enum_type: "friendship_status"
     t.index ["status"], name: "index_friendships_on_status"
     t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+  end
+
+  create_table "labels", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "color", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_labels_on_title", unique: true
+  end
+
+  create_table "note_labels", force: :cascade do |t|
+    t.bigint "note_id", null: false
+    t.bigint "label_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["label_id"], name: "index_note_labels_on_label_id"
+    t.index ["note_id", "label_id"], name: "index_note_labels_on_note_id_and_label_id", unique: true
+    t.index ["note_id"], name: "index_note_labels_on_note_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -48,5 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_11_185143) do
 
   add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
   add_foreign_key "friendships", "users", on_delete: :cascade
+  add_foreign_key "note_labels", "labels"
+  add_foreign_key "note_labels", "notes"
   add_foreign_key "notes", "users"
 end

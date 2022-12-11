@@ -11,4 +11,7 @@ Rails.application.routes.draw do
 
   # Notes
   resources :notes, only: %i[create update destroy]
+
+  # Labels
+  resources :labels, only: %i[create update destroy]
 end

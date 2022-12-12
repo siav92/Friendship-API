@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  before_action :current_user
+  before_action :authorize_request
 
   def authorize_request
     find_current_user

@@ -18,7 +18,7 @@ module Notes
       scope = Note.full_text_search(feed_params.text_search_query)
       scope = scope_by_friends_notes(scope)
 
-      case (queries = query_map(scope)).size
+      case (queries = filtering_queries(scope)).size
       when 0 then scope
       when 1 then queries.first
       else
@@ -26,14 +26,14 @@ module Notes
         when :any then Note.union(queries)
         when :all then scope.union_intersect(queries)
         end
-      end
+      end.distinct
     end
 
     private
 
     attr_reader :user, :feed_params
 
-    def query_map(scope)
+    def filtering_queries(scope)
       [
         scope_by_label_filters(scope),
         scope_by_friend_filters(scope)

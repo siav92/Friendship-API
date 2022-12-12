@@ -4,6 +4,7 @@ module Notes
   # Note feed for user
   class FeedParams
     include ActiveModel::Validations
+
     MATCH_TYPES = %i[any all].freeze
 
     validates :match_type, presence: true, inclusion: { in: MATCH_TYPES }

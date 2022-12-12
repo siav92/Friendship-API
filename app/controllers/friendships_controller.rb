@@ -8,7 +8,7 @@ class FriendshipsController < ApplicationController
     if (friendships = Friendships::Create.new(current_user, friend).run!)
       render json: friendships, status: :created
     else
-      render json: friendships.errors, status: :unprocessable_entity
+      render json: { message: 'Unable to add friend!' }, status: :unprocessable_entity
     end
   end
 

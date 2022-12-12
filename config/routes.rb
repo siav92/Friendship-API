@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # Users and Friendships
   resources :users, only: %i[index]
   get '/users/me/friends' => 'users#friends'
+  get '/users/me/feed' => 'notes#feed'
   post '/users/:email/friendship' => 'friendships#create', :constraints => { email: /.+@.+\..*/ }
   patch '/users/:email/friendship/accept' => 'friendships#accept', :constraints => { email: /.+@.+\..*/ }
   patch '/users/:email/friendship/unfriend' => 'friendships#unfriend', :constraints => { email: /.+@.+\..*/ }

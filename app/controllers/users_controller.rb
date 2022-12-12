@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     render json: users, status: :ok
   end
 
-  # GET /friends
+  # GET me/friends
   def friends
     render json: current_user.friendships, status: :ok
   end

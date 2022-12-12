@@ -24,6 +24,16 @@ class NotesController < ApplicationController
     note.destroy
   end
 
+  # GET me/feed
+  def feed
+    notes = Notes::Feed
+            .new(current_user, feed_params)
+            .search_and_filter
+            .includes(:user, :labels)
+
+    render json: notes, status: :ok
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -34,5 +44,16 @@ class NotesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def note_params
     params.require(:note).permit(:user_id, :title, :content)
+  end
+
+  def feed_params
+    params.require(:feed).permit(
+      :query,
+      :match_type,
+      filters: [
+        friend_email: [included: [], excluded: []],
+        label_title: [included: [], excluded: []]
+      ]
+    )
   end
 end
